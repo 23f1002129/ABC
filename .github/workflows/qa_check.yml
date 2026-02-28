@@ -1,0 +1,24 @@
+name: DataDash QA Check
+
+on: [push, workflow_dispatch]
+
+jobs:
+  run-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install playwright
+          playwright install chromium
+          playwright install-deps
+
+      - name: Run Scraper for 23f1002129@ds.study.iitm.ac.in
+        run: python scrape.py
